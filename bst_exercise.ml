@@ -24,9 +24,9 @@ let t3 : 'a list = [4;2;1;3;6;5;7];;
 let t4 : 'a t_btree = bst_delete(test,7);;
 
 let rec bst_isBst_aux(t, res : 'a t_btree * bool) : bool =
-  if bt_isempty(bt_subleft(t))
+  if bt_isEmpty(bt_subleft(t))
   then
-    if bt_isempty(bt_subright(t))
+    if bt_isEmpty(bt_subright(t))
     then res
     else
       if bt_root(t) < bt_root(bt_subright(t))
@@ -37,7 +37,7 @@ let rec bst_isBst_aux(t, res : 'a t_btree * bool) : bool =
           res;
         )
   else
-    if bt_isempty(bt_subright(t))
+    if bt_isEmpty(bt_subright(t))
     then
       if bt_root(t) > bt_root(bt_subleft(t))
       then bst_isBst_aux(bt_subleft(t), res)
