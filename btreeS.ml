@@ -14,20 +14,20 @@ let bt_isEmpty(root: 'a t_btree): bool =
 
 let bt_root(root: 'a t_btree): 'a =
   match root with
-  | EMPTY -> failwith ("arbre vide")
+  | EMPTY -> failwith ("error btreeS: bt_root -> empty tree")
   | ROOT(value, l_tree, r_tree) -> value
 ;;
 
 (** passer au fils gauche *)
 let bt_subleft(root: 'a t_btree): 'a t_btree =
   match root with
-  | EMPTY -> failwith ("arbre vide")
+  | EMPTY -> failwith ("error btreeS: bt_subleft -> empty tree")
   | ROOT(r, g, d) -> g
 ;;
 
 (** passer au fils droit *)
 let bt_subright(root: 'a t_btree): 'a t_btree =
   match root with
-  | EMPTY -> failwith ("arbre vide")
+  | EMPTY -> failwith ("error btreeS: bt_subright -> empty tree")
   | ROOT (r, g, d) -> d
 ;;
