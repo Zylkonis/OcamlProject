@@ -57,37 +57,6 @@ let avgImbalance(nbTree: int): float =
   let average : float = !avg/.(float_of_int(nbTree)) in
   Printf.printf "%f\n" average; 
   average
-;
-(*PRECIEUX BONNE VERSION C LA QUESTION 2*)
-let  imbalance(t : 'a t_btree) : int =
-  if bt_isempty(t)
-  then 0
-  else getHeight(bt_subleft) - getHeight(bt_subright)
-;;
-
-let rec bt_imbalance(t : 'a tbtree) : int =
-  if bt_isempty(t)
-  then 0
-  else imbalance(t) + bt_imbalence(bt_subright(t)) + bt_imbalence(bt_subl(t))
-;;
-
-let avgImbalance(nb_bt, nbsize, nb_Max: int * int * int) : float =
-let res : int ref = ref 0. in
-for i = 0 to nb_bt - 1 do
-  let bt : 'a t_btree = bst_rnd_create(nbsize, nb_Max) in
-  res := !res +. float_of_int(bt_imbalance(bt) /. float_of_int(nbsize));
-done;
-(!res /. float_of_int(nb_bt))
-;;
-(*PRECIEUX BONNE VERSION C LA QUESTION 2*)
-(*PRECIEUX BONNE VERSION*);;
-
-let avgImbalance(nbTree: int): int =
-  let avg : int ref = ref 0 in
-  for i = 0 to nbTree do
-    avg := !avg + imbalance(bst_rnd_create(25))
-  done;
-  !avg / nbTree
 ;;
 (*PRECIEUX BONNE VERSION*)
 (*
@@ -113,3 +82,72 @@ let avgImbalance(nbTree: int): float =
 *)
 
 
+(* QUESTION 3 MAIS CA MARCHE*)
+
+let randList(sizel: int) : 'a list =
+let l : 'a list ref = ref [] in
+let rand : int ref = ref 0 in
+  for i = 0 to sizel-1 do
+    rand := !rand + Random.int(100) + 1;
+    l := !l @ [!rand]
+  done;
+  !l
+;;
+
+
+let listRandomSize(nbList, listSizeMax : int * int) : 'a list =
+  let mylist : 'a list ref = ref [] in
+  for k = 1 to nbList do
+    let newlist : 'a list = randList(listSizeMax) in
+    mylist := !mylist @ newlist;
+  done;
+  printList(!mylist);
+  !mylist 
+;;
+
+let listIncreasingSize(nbList : int) : 'a list =
+  let mylist : 'a list ref = ref [] in
+  for k = 1 to nbList do
+    let newlist : 'a list = randList(k) in
+    mylist := !mylist @ newlist;
+  done;
+  printList(!mylist);
+  !mylist 
+;;
+
+let listDecreasingSize(nbList : int) : 'a list =
+  let mylist : 'a list ref = ref [] in
+  for k = 0 to nbList - 1 do
+    let newlist : 'a list = randList(nbList - k) in
+    mylist := !mylist @ newlist;
+  done;
+  printList(!mylist);
+  !mylist 
+;;
+
+
+let listFixedSize(nbList, listSize : int * int) : 'a list =
+  let mylist : 'a list ref = ref [] in
+  for k = 1 to nbList do
+    let newlist : 'a list = randList(listSize) in
+    mylist := !mylist @ newlist;
+  done;
+  
+  !mylist 
+;;
+
+
+let listToBst(l : 'a list) : 'a t_btree =
+  let t : 'a t_btree ref = ref (bt_empty()) in
+  let thelist : 'a list ref = ref l in
+  while (!thelist <> []) do
+    t := bst_linsert(!t, List.hd(!thelist));
+    thelist := List.tl(!thelist);
+  done;
+  print(!t);
+  !t
+;;
+
+
+let fixed : 'a list = listFixedSize(5, 4);;
+let t : 'a t_btree = listToBst(fixed);;
