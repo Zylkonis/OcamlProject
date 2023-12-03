@@ -101,7 +101,6 @@ let listRandomSize(nbList, listSizeMax : int * int) : 'a list =
     let newlist : 'a list = randList(listSizeMax) in
     mylist := !mylist @ newlist;
   done;
-  printList(!mylist);
   !mylist 
 ;;
 
@@ -111,7 +110,6 @@ let listIncreasingSize(nbList : int) : 'a list =
     let newlist : 'a list = randList(k) in
     mylist := !mylist @ newlist;
   done;
-  printList(!mylist);
   !mylist 
 ;;
 
@@ -121,7 +119,6 @@ let listDecreasingSize(nbList : int) : 'a list =
     let newlist : 'a list = randList(nbList - k) in
     mylist := !mylist @ newlist;
   done;
-  printList(!mylist);
   !mylist 
 ;;
 
@@ -132,7 +129,6 @@ let listFixedSize(nbList, listSize : int * int) : 'a list =
     let newlist : 'a list = randList(listSize) in
     mylist := !mylist @ newlist;
   done;
-  
   !mylist 
 ;;
 
@@ -151,3 +147,37 @@ let listToBst(l : 'a list) : 'a t_btree =
 
 let fixed : 'a list = listFixedSize(5, 4);;
 let t : 'a t_btree = listToBst(fixed);;
+
+
+
+let avgImbalanceList(nbrTest: int): unit =
+  let avgRandSize: float ref = ref 0. in
+  let avgIncrSize: float ref = ref 0. in
+  let avgDecrSize: float ref = ref 0. in
+  let avgFixeSize: float ref = ref 0. in
+  let treeList: 'a t_btree ref = ref (bt_empty()) in
+  for i = 1 to nbrTest do
+    treeList := listToBst(listRandomSize(20, 10));
+    avgRandSize := !avgRandSize +. imbalance(!treeList);
+
+    treeList := listToBst(listIncreasingSize(20));
+    avgIncrSize := !avgIncrSize +. imbalance(!treeList);
+
+    treeList := listToBst(listDecreasingSize(20));
+    avgDecrSize := !avgDecrSize +. imbalance(!treeList);
+
+    treeList := listToBst(listFixedSize(20, 5));
+    avgFixeSize := !avgFixeSize +. imbalance(!treeList)
+  done;
+  avgRandSize := (!avgRandSize) /. (float_of_int (nbrTest));
+  Printf.printf "avgRandSize = %f\n"  !avgRandSize;
+  
+  avgIncrSize := !avgIncrSize /. float_of_int(nbrTest);
+  Printf.printf "avgIncrSize = %f\n"  !avgIncrSize;
+  
+  avgDecrSize := !avgDecrSize /. float_of_int(nbrTest);
+  Printf.printf "avgDecrSize = %f\n"  !avgDecrSize;
+  
+  avgFixeSize := !avgFixeSize /. float_of_int(nbrTest);
+  Printf.printf "avgFixeSize = %f\n"  !avgFixeSize
+;;
