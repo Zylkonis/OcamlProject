@@ -169,7 +169,7 @@ let avgImbalanceList(nbrTest: int): unit =
     treeList := listToBst(listFixedSize(20, 5));
     avgFixeSize := !avgFixeSize +. imbalance(!treeList)
   done;
-  avgRandSize := (!avgRandSize) /. (float_of_int (nbrTest));
+  avgRandSize := !avgRandSize /. (float_of_int (nbrTest));
   Printf.printf "avgRandSize = %f\n"  !avgRandSize;
   
   avgIncrSize := !avgIncrSize /. float_of_int(nbrTest);
