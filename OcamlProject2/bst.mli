@@ -18,5 +18,3 @@ val bst_rmMax: 'a t_btree -> 'a t_btree
 val bst_delete : 'a t_btree * 'a -> 'a t_btree
 
 val print : int t_btree -> unit
-
-val bst_cut : 'a t_btree * 'a -> 'a t_btree
