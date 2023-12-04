@@ -36,14 +36,13 @@ let rec getHeight(t : 'a t_btree) : int =
   else 1 + max (getHeight(bt_subleft(t))) (getHeight(bt_subright(t)))
 ;;
 
-
 let rec imbalance_aux(t: 'a t_btree) : int =
   if bt_isempty(t)
   then 0
   else getHeight(bt_subleft(t)) - getHeight(bt_subright(t)) + imbalance_aux(bt_subleft(t)) + imbalance_aux(bt_subright(t))
 ;;
 
-let  imbalance(t: 'a t_btree) : float =
+let imbalance(t: 'a t_btree) : float =
   if bt_isempty(t)
   then 0.0
   else (float_of_int(imbalance_aux(t))) /. (float_of_int(bt_size(t)))

@@ -1,6 +1,8 @@
 open BtreeS ;;
 open Bst ;;
 
+type avl
+
 val right_rotate : 'a t_btree -> 'a t_btree
 
 val left_rotate : 'a t_btree -> 'a t_btree
