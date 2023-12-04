@@ -56,7 +56,7 @@ let rec bst_max(t : 'a t_btree) : 'a =
 
 let rec bst_rmMax(t : 'a t_btree) : 'a t_btree =
   if bt_isempty(t)
-  then failwith("Error bst.ml : mst_reMax : arbre vide")
+  then failwith("Error bst.ml : mst_rmMax : arbre vide")
   else
     let (l,r) : 'a t_btree * 'a t_btree = (bt_subleft(t), bt_subright(t)) in
     if bt_isempty(r)
