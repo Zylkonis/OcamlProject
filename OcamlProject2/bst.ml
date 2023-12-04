@@ -66,7 +66,7 @@ let rec bst_rmMax(t : 'a t_btree) : 'a t_btree =
 
 let rec bst_delete(t, x : 'a t_btree * 'a ) : 'a t_btree =
  if bt_isempty(t)
- then failwith("erreur bst_delete : tree is empty or vaue doesn't exits in the tree")
+ then failwith("erreur bst_delete : tree is empty or value doesn't exits in the tree")
  else
    if bt_root(t) = x
    then
@@ -100,5 +100,3 @@ let rec print(t : int t_btree) : unit =
       print(bt_subright(t));
     )
 ;;
-
-
