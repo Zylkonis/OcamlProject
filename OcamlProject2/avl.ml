@@ -3,6 +3,8 @@ open BtreeS ;;
 #load "bst.cmo" ;;
 open Bst ;;
 
+type 'a t_avl = 'a t_btree * 'a
+
 
 let left_rotate (t : 'a t_btree) : 'a t_btree =
   let new_t : 'a t_btree ref = ref (bt_empty()) in
@@ -38,6 +40,11 @@ let left_right_rotate (t : 'a t_btree) : 'a t_btree =
 ;;
 
 
+
+let hasImbalance (t : 'a t_avl) : 'a t_avl =
+  let (tree,balance) : 'a avl = t and
+  let (subleft_tree, subleft_balance) : 'a avl :,
+  if (balance = 2) && 
 
   
 
