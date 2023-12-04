@@ -3,7 +3,7 @@ open BtreeS ;;
 #load "bst.cmo" ;;
 open Bst ;;
 
-let t_avl : int * int = (val1, val2);;
+type t_avl : int * int = (val1, val2);;
 
 let left_rotate (t : 'a t_btree) : 'a t_btree =
   let new_t : 'a t_btree ref = ref (bt_empty()) in
@@ -57,7 +57,7 @@ let rec rebalance_aux(t : 'a t_btree) : 'a t_btree =
         else 
           if (balance = 2)
           then new_t := rebalance(bt_subleft(!new_t))
-          else new_t := rebalance(bt_subright(!new_t))
+          else new_t := rebalance(bt_subright(!new_t));
   !new_t
 ;;
 
@@ -67,7 +67,6 @@ let rebalance(t: 'a t_btree) : 'a t_btree =
   if (balance = -1 || balance = 0 || balance = 1)
   then tree := bt_rooting(bt_root(!tree), rebalance(bt_subleft(!tree)), rebalance(bt_subright(!tree)))
   else tree := rebalance_aux(!tree)
-  !tree
 ;;
 
 

@@ -36,50 +36,27 @@ let rec getHeight(t : 'a t_btree) : int =
   else 1 + max (getHeight(bt_subleft(t))) (getHeight(bt_subright(t)))
 ;;
 
-let rec imbalance_aux(t: 'a t_btree) : int =
+let rec imbalanceAvg_aux(t: 'a t_btree) : int =
   if bt_isempty(t)
   then 0
-  else getHeight(bt_subleft(t)) - getHeight(bt_subright(t)) + imbalance_aux(bt_subleft(t)) + imbalance_aux(bt_subright(t))
+  else getHeight(bt_subleft(t)) - getHeight(bt_subright(t)) + imbalanceAvg_aux(bt_subleft(t)) + imbalanceAvg_aux(bt_subright(t))
 ;;
 
-let imbalance(t: 'a t_btree) : float =
+let imbalanceAvg(t: 'a t_btree) : float =
   if bt_isempty(t)
   then 0.0
-  else (float_of_int(imbalance_aux(t))) /. (float_of_int(bt_size(t)))
+  else (float_of_int(imbalanceAvg_aux(t))) /. (float_of_int(bt_size(t)))
 ;;
 
-let avgImbalance(nbTree: int): float =
+let avgImbalanceAvg(nbTree: int): float =
   let avg : float ref = ref 0.0 in
   for i = 1 to nbTree do
-    avg := !avg +. imbalance(bst_rnd_create(25))
+    avg := !avg +. imbalanceAvg(bst_rnd_create(25))
   done;
   let average : float = !avg/.(float_of_int(nbTree)) in
   Printf.printf "%f\n" average; 
   average
 ;;
-(*PRECIEUX BONNE VERSION*)
-(*
-let rec getHeight(t : 'a t_btree) : int =
-  if(bt_isempty(t))
-  then 0
-  else 1 + max (getHeight(bt_subleft(t))) (getHeight(bt_subright(t)))
-;;
-
-let imbalance(t: 'a t_btree) : int =
-  abs(getHeight(bt_subleft(t)) - getHeight(bt_subright(t)))
-;;
-
-let avgImbalance(nbTree: int): float =
-  let avg : int ref = ref 0 in
-  for i = 1 to nbTree do
-    avg := !avg + imbalance(bst_rnd_create(6))
-  done;
-  let average : float = (float_of_int(!avg))/.(float_of_int(nbTree)) in
-  Printf.printf "%f\n" average;
-  average
-;;
-*)
-
 
 (* QUESTION 3 MAIS CA MARCHE*)
 
@@ -121,7 +98,6 @@ let listDecreasingSize(nbList : int) : 'a list =
   !mylist 
 ;;
 
-
 let listFixedSize(nbList, listSize : int * int) : 'a list =
   let mylist : 'a list ref = ref [] in
   for k = 1 to nbList do
@@ -130,7 +106,6 @@ let listFixedSize(nbList, listSize : int * int) : 'a list =
   done;
   !mylist 
 ;;
-
 
 let listToBst(l : 'a list) : 'a t_btree =
   let t : 'a t_btree ref = ref (bt_empty()) in
