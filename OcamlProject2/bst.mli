@@ -11,7 +11,6 @@ val bst_seek : 'a t_btree * 'a -> bool
 (* Focntion d'insertion aux feuilles d'un élément dans un ABR *)
 val bst_linsert : 'a t_btree * 'a -> 'a t_btree
 
-
 (* Fonction renvoyant l'élément maximum d'un ABR *)
 val bst_max : 'a t_btree -> 'a
 

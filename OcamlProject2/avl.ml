@@ -156,7 +156,6 @@ let rec avl_max(t : 'a t_btree) : 'b =
   else avl_max(bt_subright(t))
 ;;
 
-
 let rec avl_rmMax(t : 'a t_btree) : 'a t_btree =
   if bt_isempty(t)
   then failwith("Error avl.ml : avl_rmMax : arbre vide")
@@ -203,7 +202,6 @@ let rec avl_delete_aux(t, x : 'a t_btree * 'b ) : 'a t_btree =
       tree := rebalance(imbalanceUpdate(!tree))
     done;
     !tree
-
 ;;
 
 
