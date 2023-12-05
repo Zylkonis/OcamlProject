@@ -1,4 +1,5 @@
 #load "btreeS.cmo";;
+
 open BtreeS ;;
 #load "bst.cmo";;
 open Bst ;;
@@ -27,6 +28,12 @@ let bst_rnd_create(nbElt, borne : int * int) : 'a t_btree =
   !t
 ;;
 
+
+(*-----------------------------------------------------------------------------------------------*)
+(*-----------------------------------------------------------------------------------------------*)
+(*-----------------------------------------------------------------------------------------------*)
+
+
 (* QUESTION 2 *)
 
 
@@ -36,29 +43,46 @@ let rec getHeight(t : 'a t_btree) : int =
   else 1 + max (getHeight(bt_subleft(t))) (getHeight(bt_subright(t)))
 ;;
 
-let rec imbalanceAvg_aux(t: 'a t_btree) : int =
+
+let rec imbalance_aux(t: 'a t_btree) : int =
   if bt_isempty(t)
   then 0
-  else getHeight(bt_subleft(t)) - getHeight(bt_subright(t)) + imbalanceAvg_aux(bt_subleft(t)) + imbalanceAvg_aux(bt_subright(t))
+  else getHeight(bt_subleft(t)) - getHeight(bt_subright(t)) + imbalance_aux(bt_subleft(t)) + imbalance_aux(bt_subright(t))
 ;;
 
-let imbalanceAvg(t: 'a t_btree) : float =
+let  imbalance(t: 'a t_btree) : float =
   if bt_isempty(t)
   then 0.0
-  else (float_of_int(imbalanceAvg_aux(t))) /. (float_of_int(bt_size(t)))
+  else (float_of_int(imbalance_aux(t))) /. (float_of_int(bt_size(t)))
 ;;
 
-let avgImbalanceAvg(nbTree: int): float =
+let avgImbalance(nbTree: int): unit =
   let avg : float ref = ref 0.0 in
   for i = 1 to nbTree do
-    avg := !avg +. imbalanceAvg(bst_rnd_create(25))
+    avg := !avg +. imbalance(bst_rnd_create(100,10000))
   done;
   let average : float = !avg/.(float_of_int(nbTree)) in
   Printf.printf "%f\n" average; 
-  average
 ;;
 
-(* QUESTION 3 MAIS CA MARCHE*)
+
+(* Expérience de la question 2 (vous retrouverez les résultats dans le Tableur Excel et le fichier PDF joints) *)
+
+for k = 1 to 100 do
+  avgImbalance(1000)
+done
+;;
+
+
+
+
+(*-----------------------------------------------------------------------------------------------*)
+(*-----------------------------------------------------------------------------------------------*)
+(*-----------------------------------------------------------------------------------------------*)
+
+
+
+(* QUESTION 3 *)
 
 let randList(sizel: int) : 'a list =
 let l : 'a list ref = ref [] in
@@ -98,6 +122,7 @@ let listDecreasingSize(nbList : int) : 'a list =
   !mylist 
 ;;
 
+
 let listFixedSize(nbList, listSize : int * int) : 'a list =
   let mylist : 'a list ref = ref [] in
   for k = 1 to nbList do
@@ -107,6 +132,7 @@ let listFixedSize(nbList, listSize : int * int) : 'a list =
   !mylist 
 ;;
 
+
 let listToBst(l : 'a list) : 'a t_btree =
   let t : 'a t_btree ref = ref (bt_empty()) in
   let thelist : 'a list ref = ref l in
@@ -114,13 +140,9 @@ let listToBst(l : 'a list) : 'a t_btree =
     t := bst_linsert(!t, List.hd(!thelist));
     thelist := List.tl(!thelist);
   done;
-  print(!t);
   !t
 ;;
 
-
-let fixed : 'a list = listFixedSize(5, 4);;
-let t : 'a t_btree = listToBst(fixed);;
 
 
 
@@ -131,27 +153,36 @@ let avgImbalanceList(nbrTest: int): unit =
   let avgFixeSize: float ref = ref 0. in
   let treeList: 'a t_btree ref = ref (bt_empty()) in
   for i = 1 to nbrTest do
-    treeList := listToBst(listRandomSize(20, 10));
+    treeList := listToBst(listRandomSize(10, 10));
     avgRandSize := !avgRandSize +. imbalance(!treeList);
 
-    treeList := listToBst(listIncreasingSize(20));
+    treeList := listToBst(listIncreasingSize(10));
     avgIncrSize := !avgIncrSize +. imbalance(!treeList);
 
-    treeList := listToBst(listDecreasingSize(20));
+    treeList := listToBst(listDecreasingSize(10));
     avgDecrSize := !avgDecrSize +. imbalance(!treeList);
 
-    treeList := listToBst(listFixedSize(20, 5));
+    treeList := listToBst(listFixedSize(10, 10));
     avgFixeSize := !avgFixeSize +. imbalance(!treeList)
   done;
   avgRandSize := !avgRandSize /. (float_of_int (nbrTest));
-  Printf.printf "avgRandSize = %f\n"  !avgRandSize;
+  Printf.printf "%f\n"  !avgRandSize;
   
   avgIncrSize := !avgIncrSize /. float_of_int(nbrTest);
-  Printf.printf "avgIncrSize = %f\n"  !avgIncrSize;
+  Printf.printf "%f\n"  !avgIncrSize;
   
   avgDecrSize := !avgDecrSize /. float_of_int(nbrTest);
-  Printf.printf "avgDecrSize = %f\n"  !avgDecrSize;
+  Printf.printf "%f\n"  !avgDecrSize;
   
   avgFixeSize := !avgFixeSize /. float_of_int(nbrTest);
-  Printf.printf "avgFixeSize = %f\n"  !avgFixeSize
+  Printf.printf "%f\n"  !avgFixeSize;
 ;;
+
+
+
+(* Expérimentation de la question 3 *)
+for k = 1 to 25 do
+  avgImbalanceList(100)
+done
+;;
+

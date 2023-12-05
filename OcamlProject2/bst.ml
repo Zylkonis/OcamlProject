@@ -1,5 +1,6 @@
 open BtreeS;;
 
+
 let rec bst_seek_aux(t, x : 'a t_btree * 'a ) : bool =
   if bt_isempty(t)
   then false
@@ -31,19 +32,6 @@ let rec bst_linsert(t, x : 'a t_btree * 'a ) : 'a t_btree =
     else bt_rooting(bt_root(t), bst_linsert(bt_subleft(t), x), bt_subright(t))
 ;;
 
-let rec bst_lbuild_aux(l, t : 'a list * 'a t_btree) : 'a t_btree =
-  if List.length(l)=0
-  then t
-  else
-    let fst : 'a = List.hd(l) in
-    bst_lbuild_aux(List.tl(l), bst_linsert(t, fst))
-;;
-
-let bst_lbuild(l : 'a list) :'a t_btree =
-  if List.length(l)= 0
-  then failwith("erreur lbuild : liste vide")
-  else bst_lbuild_aux(l, bt_empty())
-;;
 
 let rec bst_max(t : 'a t_btree) : 'a =
   if bt_isempty(t)
@@ -56,7 +44,7 @@ let rec bst_max(t : 'a t_btree) : 'a =
 
 let rec bst_rmMax(t : 'a t_btree) : 'a t_btree =
   if bt_isempty(t)
-  then failwith("Error bst.ml : mst_rmMax : arbre vide")
+  then failwith("Error bst.ml : mst_reMax : arbre vide")
   else
     let (l,r) : 'a t_btree * 'a t_btree = (bt_subleft(t), bt_subright(t)) in
     if bt_isempty(r)
@@ -66,7 +54,7 @@ let rec bst_rmMax(t : 'a t_btree) : 'a t_btree =
 
 let rec bst_delete(t, x : 'a t_btree * 'a ) : 'a t_btree =
  if bt_isempty(t)
- then failwith("erreur bst_delete : tree is empty or value doesn't exits in the tree")
+ then failwith("erreur bst_delete : tree is empty or vaue doesn't exits in the tree")
  else
    if bt_root(t) = x
    then
@@ -100,3 +88,5 @@ let rec print(t : int t_btree) : unit =
       print(bt_subright(t));
     )
 ;;
+
+

@@ -21,9 +21,11 @@ let t2 : 'a t_btree = bst_linsert(test, 9);;
 
 print(t2);;
 
-let t3 : 'a list = [4;2;1;3;6;5;7];;
+let t3 : 'a list = [6;4;7;2;5;1;3;7;10];;
+let tt3 : 'a t_btree = listToBst(t3);;
+print(tt3);;
 
-let t4 : 'a t_btree = bst_delete(test,12);;
+let t4 : 'a t_btree = bst_delete(tt3,4);;
 print(t4);;
 
 let rec bst_isBst_aux(t, res : 'a t_btree * bool) : bool =
